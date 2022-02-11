@@ -1,17 +1,10 @@
 import { useRef, useEffect } from "react";
+import type { TodoType } from "../App";
 
 type HeaderProps = {
-  change: React.ChangeEventHandler<HTMLInputElement>;
   submit: React.FormEventHandler<HTMLFormElement>;
-  setTodos: React.Dispatch<
-    React.SetStateAction<
-      {
-        todo: string;
-        done: boolean;
-      }[]
-    >
-  >;
-  todos: [];
+  setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
+  todos: TodoType[];
 };
 
 const Header = (props: HeaderProps) => {

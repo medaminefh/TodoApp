@@ -1,16 +1,12 @@
+import type { TodoType } from "../App";
+
 type ListOfTodosProps = {
-  todos: [];
-  setTodos: React.Dispatch<
-    React.SetStateAction<
-      {
-        todo: string;
-        done: boolean;
-      }[]
-    >
-  >;
+  todos: TodoType[];
+  setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
 };
 
 const ListOfTodos = ({ todos, setTodos }: ListOfTodosProps) => {
+  // handle click event
   const handleClick = (e: React.FormEvent, index: number) => {
     console.log(e.currentTarget, index, todos?.[index]);
 
@@ -19,19 +15,19 @@ const ListOfTodos = ({ todos, setTodos }: ListOfTodosProps) => {
         return { ...todo, done: !todos[index].done };
       }
       return todo;
-      setTodos(updatedTodos);
     });
+    setTodos(updatedTodos);
   };
 
   return (
     <table className="table table-hover table-bordered">
       <thead>
-        <tr aria-colspan={3}>
+        <tr>
           <th className="text-center">Todo</th>
         </tr>
       </thead>
       <tbody>
-        {todos?.map((todo, index) => (
+        {todos?.sort()?.map((todo, index) => (
           <tr key={index}>
             <th>
               {!todo.done ? (
@@ -48,11 +44,19 @@ const ListOfTodos = ({ todos, setTodos }: ListOfTodosProps) => {
                 ></i>
               )}
             </th>
-            <td>{todo.todo}</td>
+            <td className={todo.done ? "text-decoration-line-through" : ""}>
+              {" "}
+              {todo.todo}
+            </td>
           </tr>
         ))}
       </tbody>
-      <tfoot>Clear</tfoot>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td className="text-end">Clear</td>
+        </tr>
+      </tfoot>
     </table>
   );
 };
