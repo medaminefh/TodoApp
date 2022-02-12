@@ -10,38 +10,29 @@ export type TodoType = {
 
 const defaultTodos = [
   {
-    todo: "Hello world!, This is the 1st Todo",
+    todo: "Fix some issues in the portfolio",
     done: false,
   },
   {
-    todo: "Yep I need a Job Todo",
-    done: true,
-  },
-  {
-    todo: "bla bla",
+    todo: "Learn the deutsh language",
     done: false,
   },
   {
-    todo: "Hate Yourself",
-    done: true,
+    todo: "Learn the communication skills",
+    done: false,
+  },
+  {
+    todo: "Get A Job",
+    done: false,
   },
 ];
 
 function App() {
   const [todos, setTodos] = useState<TodoType[]>(defaultTodos);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const todo = e.currentTarget.querySelector("input");
-
-    const newTask = { todo: todo?.value, done: false };
-
-    setTodos((prev) => [...prev, newTask]);
-  };
-
   return (
     <div className="App">
-      <Header setTodos={setTodos} todos={todos} submit={handleSubmit} />
+      <Header setTodos={setTodos} todos={todos} />
       <ListOfTodos setTodos={setTodos} todos={todos} />
     </div>
   );
