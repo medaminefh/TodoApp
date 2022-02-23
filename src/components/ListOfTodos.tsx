@@ -40,8 +40,9 @@ const ListOfTodos = ({ todos, setTodos, setDoneTodos }: ListOfTodosProps) => {
     } else if (name === "done") {
       const activeTodos = todos.filter((todo) => todo.done);
       setUiTodos(activeTodos);
+    } else if (name === "deleteOne") {
+      setTodos((prev) => prev.filter((todo) => todo.id !== index));
     } else if (name === "delete") {
-      setUiTodos([]);
       setTodos([]);
     }
   };
@@ -78,6 +79,13 @@ const ListOfTodos = ({ todos, setTodos, setDoneTodos }: ListOfTodosProps) => {
             >
               {" "}
               {todo.todo}
+              <button
+                className="bg-transparent border-0 text-danger float-end"
+                title="Delete"
+                onClick={() => handleClick(todo.id, "deleteOne")}
+              >
+                <i className="bi bi-trash"></i>
+              </button>
             </td>
           </tr>
         ))}
