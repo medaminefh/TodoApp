@@ -5,10 +5,9 @@ import type { TodoType } from "../App";
 type ListOfTodosProps = {
   todos: TodoType[];
   setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
-  setDoneTodos: React.Dispatch<React.SetStateAction<TodoType[] | null>>;
 };
 
-const ListOfTodos = ({ todos, setTodos, setDoneTodos }: ListOfTodosProps) => {
+const ListOfTodos = ({ todos, setTodos }: ListOfTodosProps) => {
   const [uiTodos, setUiTodos] = useState(todos);
 
   useEffect(() => {
@@ -30,7 +29,6 @@ const ListOfTodos = ({ todos, setTodos, setDoneTodos }: ListOfTodosProps) => {
       const completedTodos = updatedTodos.filter((todo) => todo.done === true);
 
       setUiTodos([...incompletedTodos, ...completedTodos]);
-      setDoneTodos(completedTodos);
       setTodos([...incompletedTodos, ...completedTodos]);
       return;
     }

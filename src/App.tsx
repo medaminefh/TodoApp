@@ -34,16 +34,11 @@ const defaultTodos = [
 
 function App() {
   const [todos, setTodos] = useState<TodoType[]>(defaultTodos);
-  const [_, setDoneTodos] = useState<TodoType[] | null>(null);
 
   return (
     <div className="App">
       <Header setTodos={setTodos} todos={todos} />
-      <ListOfTodos
-        setTodos={setTodos}
-        todos={todos}
-        setDoneTodos={setDoneTodos}
-      />
+      <ListOfTodos setTodos={setTodos} todos={todos} />
     </div>
   );
 }
