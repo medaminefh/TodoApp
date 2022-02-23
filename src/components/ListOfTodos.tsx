@@ -1,36 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import type { TodoType } from "../App";
 
 type ListOfTodosProps = {
   todos: TodoType[];
   setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
+  setDoneTodos: React.Dispatch<React.SetStateAction<TodoType[] | null>>;
 };
 
-const ListOfTodos = ({ todos, setTodos }: ListOfTodosProps) => {
-  const [list, setList] = useState(todos);
+const ListOfTodos = ({ todos, setTodos, setDoneTodos }: ListOfTodosProps) => {
+  const [uiTodos, setUiTodos] = useState(todos);
+
+  useEffect(() => {
+    setUiTodos(todos);
+  }, [todos]);
 
   // handle click event
   const handleClick = function (index: number, name?: string) {
     if (!name) {
-      const updatedTodos = todos?.map((todo) => {
-        if (todo === todos[index]) {
-          return { ...todo, done: !todos[index]?.done };
+      let updatedTodos = todos?.map((todo) => {
+        if (todo.id === index) {
+          return { ...todo, done: !todo.done };
         }
         return todo;
       });
-      setTodos(updatedTodos);
+      const incompletedTodos = updatedTodos.filter(
+        (todo) => todo.done === false
+      );
+      const completedTodos = updatedTodos.filter((todo) => todo.done === true);
+
+      setUiTodos([...incompletedTodos, ...completedTodos]);
+      setDoneTodos(completedTodos);
+      setTodos([...incompletedTodos, ...completedTodos]);
       return;
     }
 
-    if (name === "active") {
-      const activeTodos = list.filter((todo) => !todo.done);
-      setTodos(activeTodos);
-    } else if (name === "inactive") {
-      const activeTodos = list.filter((todo) => todo.done);
-      setTodos(activeTodos);
+    if (name === "all") {
+      setUiTodos(todos);
+    } else if (name === "done") {
+      const activeTodos = todos.filter((todo) => todo.done);
+      setUiTodos(activeTodos);
     } else if (name === "delete") {
-      setList([]);
+      setUiTodos([]);
       setTodos([]);
     }
   };
@@ -43,18 +54,18 @@ const ListOfTodos = ({ todos, setTodos }: ListOfTodosProps) => {
         </tr>
       </thead>
       <tbody>
-        {todos?.map((todo, index) => (
-          <tr key={index}>
+        {uiTodos?.map((todo) => (
+          <tr key={todo.id}>
             <th>
               {!todo.done ? (
                 <i
-                  onClick={() => handleClick(index)}
+                  onClick={() => handleClick(todo.id)}
                   className="bi bi-circle"
                   role="button"
                 ></i>
               ) : (
                 <i
-                  onClick={() => handleClick(index)}
+                  onClick={() => handleClick(todo.id)}
                   className="bi bi-check-circle"
                   role="button"
                 ></i>
@@ -77,17 +88,19 @@ const ListOfTodos = ({ todos, setTodos }: ListOfTodosProps) => {
           <td className="d-flex justify-content-between align-self-end">
             <button
               className="bg-transparent border-0 text-light"
-              name="active"
-              onClick={() => handleClick(2, "active")}
+              name="all"
+              title="All Todos"
+              onClick={() => handleClick(2, "all")}
             >
-              Active
+              All
             </button>
             <button
               className="bg-transparent border-0 text-light"
-              name="inactive"
-              onClick={() => handleClick(2, "inactive")}
+              name="done"
+              title="Done Todos"
+              onClick={() => handleClick(2, "done")}
             >
-              Inactive
+              Done
             </button>
             <button
               className="bg-transparent border-0 text-light"

@@ -9,11 +9,14 @@ type HeaderProps = {
 const Header = (props: HeaderProps) => {
   const [value, setValue] = useState<string>("");
 
+  // generate a random number and use it as id
+  const rndomnmb = Math.floor(Math.random() * 1000000);
+
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newTask = { todo: value, done: false };
+    const newTask = { todo: value, done: false, id: rndomnmb };
 
     props.setTodos((prev) => [newTask, ...prev]);
     setValue("");
