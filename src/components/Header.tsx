@@ -33,7 +33,7 @@ const Header = (props: HeaderProps) => {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit} className="inputParend">
+    <form onSubmit={handleSubmit} className="inputParent">
       <input
         ref={inputRef}
         type={"text"}

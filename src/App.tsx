@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./App.css";
 import Header from "./components/Header";
 import ListOfTodos from "./components/ListOfTodos";
 
@@ -36,7 +35,7 @@ function App() {
   const [todos, setTodos] = useState<TodoType[]>(defaultTodos);
 
   return (
-    <div className="App">
+    <div className="App container">
       <Header setTodos={setTodos} todos={todos} />
       <ListOfTodos setTodos={setTodos} todos={todos} />
     </div>
