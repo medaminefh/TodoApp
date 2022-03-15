@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { idText } from "typescript";
 
 import type { TodoType } from "../App";
 
@@ -9,12 +10,32 @@ type ListOfTodosProps = {
 
 const ListOfTodos = ({ todos, setTodos }: ListOfTodosProps) => {
   const [uiTodos, setUiTodos] = useState(todos);
+  const [value, setValue] = useState<string>("");
 
   useEffect(() => {
     setUiTodos(todos);
   }, [todos]);
 
-  // handle click event
+  // Edit Fn
+  const handleEdit = (index: number) => {
+    const todo = todos.find((t) => t.id === index);
+
+    setTodos((prev) =>
+      prev.map((todo) => {
+        if (todo.id === index)
+          return { ...todo, todo: value, isEdit: !todo.isEdit };
+        else {
+          return todo;
+        }
+      })
+    );
+    setValue(todo?.todo || "");
+  };
+
+  const handleChange = (e: React.FormEvent<HTMLInputElement>) =>
+    setValue(e.currentTarget.value);
+
+  // Handle click event
   const handleClick = function (index: number, name?: string) {
     if (!name) {
       let updatedTodos = todos?.map((todo) => {
@@ -75,14 +96,26 @@ const ListOfTodos = ({ todos, setTodos }: ListOfTodosProps) => {
                 todo.done ? "text-decoration-line-through text-secondary" : ""
               }
             >
-              {" "}
-              {todo.todo}
+              <input
+                type="text"
+                onChange={handleChange}
+                value={value}
+                className={todo.isEdit ? "d-inline" : "d-none"}
+              />{" "}
+              {!todo.isEdit && todo.todo}
               <button
                 className="bg-transparent border-0 text-danger float-end"
                 title="Delete"
                 onClick={() => handleClick(todo.id, "deleteOne")}
               >
                 <i className="bi bi-trash"></i>
+              </button>
+              <button
+                className="bg-transparent border-0 text-primary float-end"
+                title="Edit"
+                onClick={() => handleEdit(todo.id)}
+              >
+                <i className="bi bi-pencil"></i>
               </button>
             </td>
           </tr>

@@ -16,7 +16,7 @@ const Header = (props: HeaderProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newTask = { todo: value, done: false, id: rndomnmb };
+    const newTask = { todo: value, done: false, id: rndomnmb, isEdit: false };
 
     props.setTodos((prev) => [newTask, ...prev]);
     setValue("");
