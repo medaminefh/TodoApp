@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { idText } from "typescript";
 
 import type { TodoType } from "../App";
 
